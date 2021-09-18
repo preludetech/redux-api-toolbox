@@ -1,9 +1,21 @@
-import { fetchAndClean } from "ajaxRedux/fetchUtils.js";
-import { clearAuthToken } from "ajaxRedux/authTokenStorage.js";
-import { API_BASE_URL } from "root/config.js";
+import { fetchAndClean } from "../fetchUtils.js";
+import { clearAuthToken,setAuthToken } from "../authTokenStorage.js";
 
-export async function login({ email, password }) {
-  const url = `${API_BASE_URL}/api/dj-rest-auth/login/`;
+
+function urlJoin({base, tail}){
+  if (base.endsWith('/'))
+    return `${base}${tail}`
+  return `${base}/${tail}`
+}
+
+
+export async function login({REST_AUTH_BASE_URL, email, password }) {
+  // const url = `${API_BASE_URL}/api/dj-rest-auth/login/`;
+  console.assert(REST_AUTH_BASE_URL,"missing required argument: REST_AUTH_BASE_URL")
+  const url = urlJoin({
+    base: REST_AUTH_BASE_URL,
+    tail: 'login/'
+  })
   const { response, responseData } = await fetchAndClean({
     url,
     method: "POST",
@@ -16,15 +28,13 @@ export async function login({ email, password }) {
   return { response, responseData };
 }
 
-export async function whoAmI() {
-  const url = `${API_BASE_URL}/api/core/who_am_i/`;
-  const { response, responseData } = await fetchAndClean({ url });
-  if (responseData.detail === "Invalid token.") clearAuthToken();
-  return { response, responseData };
-}
-
-export async function logout() {
-  const url = `${API_BASE_URL}/api/dj-rest-auth/logout/`;
+export async function logout({REST_AUTH_BASE_URL}) {
+  // const url = `${API_BASE_URL}/api/dj-rest-auth/logout/`;
+  console.assert(REST_AUTH_BASE_URL,"missing required argument: REST_AUTH_BASE_URL")
+  const url = urlJoin({
+    base: REST_AUTH_BASE_URL,
+    tail: 'logout/'
+  })
   const { response, responseData } = await fetchAndClean({
     url,
     method: "POST",
@@ -33,8 +43,14 @@ export async function logout() {
   return { response, responseData };
 }
 
-export async function requestPasswordReset({ email }) {
-  const url = `${API_BASE_URL}/api/dj-rest-auth/password/reset/`;
+export async function requestPasswordReset({ REST_AUTH_BASE_URL,email }) {
+  // const url = `${API_BASE_URL}/api/dj-rest-auth/password/reset/`;
+  console.assert(REST_AUTH_BASE_URL,"missing required argument: REST_AUTH_BASE_URL")
+  const url = urlJoin({
+    base: REST_AUTH_BASE_URL,
+    tail: 'password/reset/'
+  })
+
   const { response, responseData } = await fetchAndClean({
     url,
     method: "POST",
@@ -44,12 +60,19 @@ export async function requestPasswordReset({ email }) {
 }
 
 export async function performPasswordReset({
+  REST_AUTH_BASE_URL,
   token,
   uid,
   newPassword1,
   newPassword2,
 }) {
-  const url = `${API_BASE_URL}/api/dj-rest-auth/password/reset/confirm/`;
+  console.assert(REST_AUTH_BASE_URL,"missing required argument: REST_AUTH_BASE_URL")
+  // const url = `${API_BASE_URL}/api/dj-rest-auth/password/reset/confirm/`;
+  const url = urlJoin({
+    base: REST_AUTH_BASE_URL,
+    tail: 'password/reset/confirm/'
+  })
+
   const { response, responseData } = await fetchAndClean({
     url,
     method: "POST",
@@ -58,8 +81,13 @@ export async function performPasswordReset({
   return { response, responseData };
 }
 
-export async function changePassword({ newPassword1, newPassword2 }) {
-  const url = `${API_BASE_URL}/api/dj-rest-auth/password/change/`;
+export async function changePassword({ REST_AUTH_BASE_URL,newPassword1, newPassword2 }) {
+  console.assert(REST_AUTH_BASE_URL,"missing required argument: REST_AUTH_BASE_URL")
+  // const url = `${API_BASE_URL}/api/dj-rest-auth/password/change/`;
+  const url = urlJoin({
+    base: REST_AUTH_BASE_URL,
+    tail: 'password/change/'
+  })
   const { response, responseData } = await fetchAndClean({
     url,
     method: "POST",

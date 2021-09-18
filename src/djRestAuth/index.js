@@ -1,12 +1,11 @@
 import {
   logout,
   login,
-  whoAmI,
   requestPasswordReset,
   performPasswordReset,
   changePassword,
 } from "./apiCalls";
-import { createReduxApp } from "ajaxRedux/appCreator.js";
+import { createReduxApp } from "../appCreator";
 
 function logName(raw) {
   return `API_${raw}`;
@@ -14,7 +13,6 @@ function logName(raw) {
 
 const LOGOUT = logName("LOGOUT");
 const LOGIN = logName("LOGIN");
-const WHO_AM_I = logName("WHO_AM_I");
 const REQUEST_PASSWORD_RESET = logName("REQUEST_PASSWORD_RESET");
 const PERFORM_PASSWORD_RESET = logName("PERFORM_PASSWORD_RESET");
 const CHANGE_PASSWORD = logName("CHANGE_PASSWORD");
@@ -28,11 +26,6 @@ export const apiReduxApps = {
   [LOGIN]: createReduxApp({
     BASE_TYPE: LOGIN,
     apiCaller: login,
-  }),
-
-  [WHO_AM_I]: createReduxApp({
-    BASE_TYPE: WHO_AM_I,
-    apiCaller: whoAmI,
   }),
 
   [REQUEST_PASSWORD_RESET]: createReduxApp({
