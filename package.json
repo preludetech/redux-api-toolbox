@@ -1,0 +1,24 @@
+{
+  "name": "redux-drf-sagas",
+  "version": "0.1.0",
+  "description": "If you are running Django Rest Framework on your backend then you can use these tools to get your js frontend to play nice with your backend. It's framework agnostic. It doesn't mean you would need to use redux as your main state management tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheenarbw/redux-drf-sagas.git"
+  },
+  "keywords": [
+    "redux",
+    "saga",
+    "django-rest-framework"
+  ],
+  "author": "Sheena O'Connell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sheenarbw/redux-drf-sagas/issues"
+  },
+  "homepage": "https://github.com/sheenarbw/redux-drf-sagas#readme"
+}
