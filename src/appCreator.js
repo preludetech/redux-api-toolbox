@@ -315,7 +315,9 @@ export function createReduxApp({
     if (responseIsList) {
       entityList = action.responseData;
     } else {
-      throw new Error("todo: deal with single entity");
+      // console.log(action.responseData)
+      // throw new Error("todo: deal with single entity");
+      entityList = [action.responseData];
     }
 
     if (removeFromStore) {
