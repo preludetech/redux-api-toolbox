@@ -10,6 +10,10 @@ If you are using [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/) 
 npm i TODO
 ```
 
+## An example in action
+
+See the example directory :)
+
 ## Security
 
 Chances are that you are using some kind of authentication on your apis. There are some helpers build in here that will work to store and retrieve authentication tokens in browser based session storage.

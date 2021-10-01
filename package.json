@@ -1,5 +1,5 @@
 {
-  "name": "@sheenarbw/redux-drf",
+  "name": "@sheenarbw/redux-django-rest-framework",
   "version": "0.0.0",
   "description": "If you are running Django Rest Framework on your backend then you can use these tools to get your js frontend to play nice with your backend. It's framework agnostic. It doesn't mean you would need to use redux as your main state management tool",
   "main": "src/",

@@ -27,19 +27,20 @@ SECRET_KEY = "django-insecure-p0szr#-sbc556)%8&$t@#q+_d512uwq^h$0cgj*__vsj7ie@j_
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "core.User"
 
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
     "core",
@@ -55,7 +56,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "sleeper_middleware.sleeper" # NOTE this is just for demo purposes
 ]
+
 
 ROOT_URLCONF = "backend.urls"
 
