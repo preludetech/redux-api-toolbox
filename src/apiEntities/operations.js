@@ -16,7 +16,15 @@ const addEntityListToStore = ({ entityList, entityType }) => {
   });
 };
 
+const removeEntityListFromStore = ({ entityList, entityType }) => {
+  return Creators.removeEntitiesFromStoreAsObject({
+    entitiesObject: arrayToObjectWithIdKeys({ entityList }),
+    entityType,
+  });
+};
+
 export default {
   ...Creators,
   addEntityListToStore,
+  removeEntityListFromStore,
 };

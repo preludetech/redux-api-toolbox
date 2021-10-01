@@ -152,6 +152,7 @@ export function createReduxApp({
     )
       throw new Error("Always include the call index while making api calls");
 
+    console.log(action);
     switch (action.type) {
       case types.START:
         // if (state.length !== callIndex) {
@@ -321,15 +322,20 @@ export function createReduxApp({
     }
 
     if (removeFromStore) {
-      throw new Error("todo: deal with entity removal");
+      yield put(
+        apiEntitiesOperations.removeEntityListFromStore({
+          entityList,
+          entityType: responseEntityType,
+        })
+      );
+    } else {
+      yield put(
+        apiEntitiesOperations.addEntityListToStore({
+          entityList,
+          entityType: responseEntityType,
+        })
+      );
     }
-
-    yield put(
-      apiEntitiesOperations.addEntityListToStore({
-        entityList,
-        entityType: responseEntityType,
-      })
-    );
   }
 
   function* watchSuccess() {

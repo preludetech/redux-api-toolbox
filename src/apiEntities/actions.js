@@ -8,4 +8,12 @@ export default {
       entityType,
     };
   },
+
+  removeEntitiesFromStoreAsObject: ({ entitiesObject, entityType }) => {
+    return {
+      type: types.REMOVE_API_ENTITIES_FROM_STORE,
+      entitiesObject,
+      entityType,
+    };
+  },
 };

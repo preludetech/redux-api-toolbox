@@ -17,6 +17,22 @@ const reducer = (state = INITIAL_STATE, action) => {
         [action.entityType]: allInstances,
       };
 
+    case types.REMOVE_API_ENTITIES_FROM_STORE:
+      const current = state[action.entityType] || {};
+      const keysToRemove = Object.keys(action.entitiesObject);
+      const finalKeys = Object.keys(current).filter(
+        (key) => !keysToRemove.includes(key)
+      );
+      const final = {};
+      for (let key of finalKeys) {
+        final[key] = current[key];
+      }
+
+      return {
+        ...state,
+        [action.entityType]: final,
+      };
+
     default:
       return state;
   }

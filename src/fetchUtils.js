@@ -1,8 +1,8 @@
-import { getAuthToken } from './authTokenStorage.js';
+import { getAuthToken } from "./authTokenStorage.js";
 
-const _toCamel = s => {
-  return s.replace(/([-_][a-z])/gi, $1 => {
-    return $1.toUpperCase().replace('-', '').replace('_', '');
+const _toCamel = (s) => {
+  return s.replace(/([-_][a-z])/gi, ($1) => {
+    return $1.toUpperCase().replace("-", "").replace("_", "");
   });
 };
 
@@ -11,20 +11,20 @@ const _isArray = function (a) {
 };
 
 const _isObject = function (o) {
-  return o === Object(o) && !_isArray(o) && typeof o !== 'function';
+  return o === Object(o) && !_isArray(o) && typeof o !== "function";
 };
 
 const fromSnakeToCamel = function (o) {
   if (_isObject(o)) {
     const n = {};
 
-    Object.keys(o).forEach(k => {
+    Object.keys(o).forEach((k) => {
       n[_toCamel(k)] = fromSnakeToCamel(o[k]);
     });
 
     return n;
   } else if (_isArray(o)) {
-    return o.map(i => {
+    return o.map((i) => {
       return fromSnakeToCamel(i);
     });
   }
@@ -35,36 +35,41 @@ const fromSnakeToCamel = function (o) {
 const camelStringToSnake = function (s) {
   return s
     .replace(/(?:^|\.?)([A-Z])/g, function (x, y) {
-      return '_' + y.toLowerCase();
+      return "_" + y.toLowerCase();
     })
-    .replace(/^_/, '');
+    .replace(/^_/, "");
 };
 
-export async function fetchAndClean({ url, method, data, noResponseJson }) {
+export async function fetchAndClean({
+  url,
+  method,
+  data,
+  forceSuccessResponseJson,
+}) {
   const headers = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
   const token = getAuthToken();
   if (token) headers.Authorization = `Token ${token}`;
 
   const params = {
-    method: method || 'GET',
+    method: method || "GET",
     headers,
   };
   if (data) {
     const snakeData = {};
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       snakeData[camelStringToSnake(key)] = data[key];
     });
-    params['body'] = JSON.stringify(snakeData);
+    params["body"] = JSON.stringify(snakeData);
   }
 
   const response = await fetch(url, params);
 
-  if (noResponseJson) {
+  if (forceSuccessResponseJson) {
     return Promise.resolve({
       response,
-      responseData: {},
+      responseData: forceSuccessResponseJson,
     });
   }
 
@@ -79,6 +84,6 @@ export async function fetchAndClean({ url, method, data, noResponseJson }) {
 export function getNextPageNumberFromUrl({ url }) {
   if (url === null) return null;
   const urlInstance = new URL(url);
-  const page = urlInstance.searchParams.get('page');
+  const page = urlInstance.searchParams.get("page");
   return page;
 }
