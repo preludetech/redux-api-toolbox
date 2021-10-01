@@ -1,3 +1,5 @@
+import { getLatestMatchingCall as rawGetLatestMatchingCall } from "../appCreator";
+
 export const getEntityArray = ({ state, entityType }) => {
   return (
     (state.apiEntities &&
@@ -13,4 +15,9 @@ export const getSingleEntity = ({ state, entityType, id }) => {
     state.apiEntities[entityType] &&
     state.apiEntities[entityType][id]
   );
+};
+
+export const getLatestMatchingCall = ({ state, BASE_TYPE, requestData }) => {
+  const callLog = state[BASE_TYPE];
+  return rawGetLatestMatchingCall({ callLog, requestData });
 };

@@ -152,7 +152,6 @@ export function createReduxApp({
     )
       throw new Error("Always include the call index while making api calls");
 
-    console.log(action);
     switch (action.type) {
       case types.START:
         // if (state.length !== callIndex) {
