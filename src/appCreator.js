@@ -7,7 +7,6 @@ const INITIAL_SINGLE_API_CALL_STATE = {
   error: null,
   responseData: null,
   responseOk: null,
-  successLog: [],
   // TODO add timestamps for sent and response time
 };
 
