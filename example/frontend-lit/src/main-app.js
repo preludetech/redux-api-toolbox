@@ -27,11 +27,11 @@ export class MainApp extends connect(store)(LitElement) {
     this.createEntryName = "";
     this.lastListApiCall = { loading: true };
     this.lastCreateApiCall = { loading: false };
+    this.preRenderCalled = false;
   }
 
   stateChanged(state) {
     this.todoItems = getEntityArray({ state, entityType: "todoItem" });
-    console.log(state);
     this.lastListApiCall = getLatestMatchingCall({
       state,
       BASE_TYPE: "TODO_ITEM_LIST",
@@ -45,11 +45,15 @@ export class MainApp extends connect(store)(LitElement) {
   }
 
   preRender() {
-    store.dispatch(
-      apiReduxApps.TODO_ITEM_LIST.operations.maybeStart({
-        data: {},
-      })
-    );
+    if (!this.preRenderCalled) {
+      store.dispatch(
+        apiReduxApps.TODO_ITEM_LIST.operations.maybeStart({
+          data: {},
+        })
+      );
+
+      this.preRenderCalled = true;
+    }
   }
 
   handleDeleteClicked({ id }) {

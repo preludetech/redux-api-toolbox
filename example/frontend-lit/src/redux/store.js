@@ -21,14 +21,10 @@ const composeEnhancers = // this is so that you can use the redux chrome debugge
 export const store = createStore(
   combineReducers({
     ...authReducers,
-    // mainApp,
     ...apiReduxReducers,
     apiEntities,
   }),
-  composeEnhancers(
-    applyMiddleware(sagaMiddleware)
-    // ,applyMiddleware(logger)
-  )
+  composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
 sagaMiddleware.run(rootSaga);
