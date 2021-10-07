@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sheenarbw/redux-drf-sagas.git"
+    "url": "git+https://github.com/sheenarbw/redux-django-rest-framework.git"
   },
   "keywords": [
     "redux",
@@ -18,9 +18,9 @@
   "author": "Sheena O'Connell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sheenarbw/redux-drf-sagas/issues"
+    "url": "https://github.com/sheenarbw/redux-django-rest-framework/issues"
   },
-  "homepage": "https://github.com/sheenarbw/redux-drf-sagas#readme",
+  "homepage": "https://github.com/sheenarbw/redux-django-rest-framework#readme",
   "dependencies": {
     "redux": "^4.1.1",
     "redux-saga": "^1.1.3"

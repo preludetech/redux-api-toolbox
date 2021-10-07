@@ -7,7 +7,7 @@ If you are using [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/) 
 ## How to install
 
 ```
-npm i TODO
+npm i @sheenarbw/redux-django-rest-framework
 ```
 
 ## An example in action
@@ -21,6 +21,8 @@ Chances are that you are using some kind of authentication on your apis. There a
 This needs work. Session storage can be tricked. Please do your research. The main thing is to be very very careful about XSS attacks. And pretty careful about CSRF too.
 
 ## How to use
+
+Please look inside the example directory for a full working application.=
 
 ### Initial configuration
 
