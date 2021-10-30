@@ -1,5 +1,5 @@
-import { takeEvery, put, call, select } from "redux-saga/effects";
-import { apiEntitiesOperations } from "./apiEntities";
+import { takeEvery, put, call, select } from 'redux-saga/effects';
+import { apiEntitiesOperations } from './apiEntities';
 
 const INITIAL_SINGLE_API_CALL_STATE = {
   loading: false,
@@ -79,7 +79,7 @@ export function createReduxApp({
 
     _start: ({ data, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error("Always include the call index while making api calls");
+        throw new Error('Always include the call index while making api calls');
       return {
         type: types.START,
         data,
@@ -89,7 +89,7 @@ export function createReduxApp({
 
     success: ({ data, requestData, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error("Always include the call index while making api calls");
+        throw new Error('Always include the call index while making api calls');
       return {
         type: types.SUCCESS,
         responseData: data,
@@ -100,7 +100,7 @@ export function createReduxApp({
 
     error: ({ error, requestData, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error("Always include the call index while making api calls");
+        throw new Error('Always include the call index while making api calls');
       return {
         type: types.ERROR,
         error,
@@ -111,7 +111,7 @@ export function createReduxApp({
 
     responseError: ({ data, requestData, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error("Always include the call index while making api calls");
+        throw new Error('Always include the call index while making api calls');
       return {
         type: types.RESPONSE_ERROR,
         responseData: data,
@@ -124,11 +124,11 @@ export function createReduxApp({
   const operations = {
     ...creators,
 
-    maybeStart: (params) => {
+    maybeStart: params => {
       const { data } = params;
 
       if (data === undefined || data === null) {
-        throw new Error("call data cannot be undefined or null");
+        throw new Error('call data cannot be undefined or null');
       }
       return creators.maybeStart({ data });
     },
@@ -149,7 +149,7 @@ export function createReduxApp({
       Object.values(types).indexOf(action.type) !== -1 &&
       callIndex === undefined
     )
-      throw new Error("Always include the call index while making api calls");
+      throw new Error('Always include the call index while making api calls');
 
     switch (action.type) {
       case types.START:
@@ -253,8 +253,8 @@ export function createReduxApp({
     }
 
     const { force } = action;
-    if (force === undefined) throw new Error("force should be set");
-    const callLog = yield select((state) => state[BASE_TYPE]);
+    if (force === undefined) throw new Error('force should be set');
+    const callLog = yield select(state => state[BASE_TYPE]);
     const callIndex = Object.keys(callLog).length;
 
     const matchingCall = getLatestMatchingCall({
@@ -278,13 +278,13 @@ export function createReduxApp({
 
   function* addNewStartSequenceSideEffects(action) {
     const { force } = action;
-    if (force === undefined) throw new Error("force should be set");
-    const callLog = yield select((state) => state[BASE_TYPE]);
+    if (force === undefined) throw new Error('force should be set');
+    const callLog = yield select(state => state[BASE_TYPE]);
 
     const callIndex = Object.keys(callLog).length;
     const { dataSequence } = action;
     if (dataSequence === undefined)
-      throw new Error("dataSequence should be set");
+      throw new Error('dataSequence should be set');
 
     for (let index in dataSequence) {
       let data = dataSequence[index];
@@ -371,7 +371,7 @@ export function getLatestMatchingCall({ callLog, requestData }) {
 
   if (callLog === undefined) return;
   const indices = Object.keys(callLog).sort((a, b) => b - a);
-  const matchingIndex = indices.find((index) => {
+  const matchingIndex = indices.find(index => {
     const logEntry = callLog[index];
     for (let key in requestData) {
       if (
