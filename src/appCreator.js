@@ -1,5 +1,6 @@
 import { takeEvery, put, call, select } from 'redux-saga/effects';
 import { apiEntitiesOperations } from './apiEntities';
+import { toasterOperations } from './toaster/index.js';
 
 const INITIAL_SINGLE_API_CALL_STATE = {
   loading: false,
@@ -41,49 +42,45 @@ export function createReduxApp({
   };
 
   const creators = {
-    start: ({ data }) => {
-      return {
-        type: types.ADD_NEW_START,
-        data,
-        force: true,
-      };
-    },
+    start: ({ data, successToast }) => ({
+      type: types.ADD_NEW_START,
+      data,
+      successToast,
+      force: true,
+    }),
 
-    maybeStart: ({ data }) => {
-      return {
-        type: types.ADD_NEW_START,
-        data,
-        force: false,
-      };
-    },
+    maybeStart: ({ data, successToast }) => ({
+      type: types.ADD_NEW_START,
+      data,
+      successToast,
+      force: false,
+    }),
 
-    startCallSequence: ({ dataSequence }) => {
+    startCallSequence: ({ dataSequence }) =>
       // if you start many calls in quick succession then
       // sometimes the callIndex values get muddled up. This is a quick fix
-      return {
+      ({
         type: types.ADD_NEW_START_SEQUENCE,
         dataSequence,
         force: true,
-      };
-    },
-
-    maybeStartCallSequence: ({ dataSequence }) => {
+      }),
+    maybeStartCallSequence: ({ dataSequence }) =>
       // if you start many calls in quick succession then
       // sometimes the callIndex values get muddled up. This is a quick fix
-      return {
+      ({
         type: types.ADD_NEW_START_SEQUENCE,
         dataSequence,
         force: false,
-      };
-    },
+      }),
 
-    _start: ({ data, callIndex }) => {
+    _start: ({ data, callIndex, successToast }) => {
       if (callIndex === undefined)
         throw new Error('Always include the call index while making api calls');
       return {
         type: types.START,
         data,
         callIndex,
+        successToast,
       };
     },
 
@@ -125,12 +122,12 @@ export function createReduxApp({
     ...creators,
 
     maybeStart: params => {
-      const { data } = params;
+      const { data, successToast } = params;
 
       if (data === undefined || data === null) {
         throw new Error('call data cannot be undefined or null');
       }
-      return creators.maybeStart({ data });
+      return creators.maybeStart({ data, successToast });
     },
 
     // forceStart: (params) => {
@@ -152,28 +149,17 @@ export function createReduxApp({
       throw new Error('Always include the call index while making api calls');
 
     switch (action.type) {
-      case types.START:
-        // if (state.length !== callIndex) {
-        //   if (
-        //     JSON.stringify(action.data) ===
-        //     JSON.stringify(state[callIndex].requestData)
-        //   )
-        //     //some kind of race condition
-        //     return { ...state };
-
-        //   throw new Error(
-        //     `${BASE_TYPE}: Expected callIndex to be ${state.length}, but got ${callIndex}`
-        //   );
-        // }
-
-        let startState = { ...state };
+      case types.START: {
+        const startState = { ...state };
         startState[callIndex] = {
           ...INITIAL_SINGLE_API_CALL_STATE,
           loading: true,
           requestData: action.data,
+          successToast: action.successToast,
           callIndex,
         };
         return startState;
+      }
 
       // can there be race conditions here? I dont know.
       // the error checking should pick it up
@@ -223,6 +209,12 @@ export function createReduxApp({
         yield put(
           operations.success({ data: responseData, requestData, callIndex })
         );
+
+        // console.log(action);
+
+        if (action.successToast) {
+          yield put(toasterOperations.addNewToast(action.successToast));
+        }
       } else {
         yield put(
           operations.responseError({
@@ -266,6 +258,7 @@ export function createReduxApp({
       yield put(
         operations._start({
           data: action.data,
+          successToast: action.successToast,
           callIndex,
         })
       );

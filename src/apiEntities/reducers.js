@@ -1,10 +1,10 @@
-import types from "./types";
+import types from './types';
 
 const INITIAL_STATE = {};
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.ADD_API_ENTITIES_RESPONSE_TO_STORE:
+    case types.ADD_API_ENTITIES_RESPONSE_TO_STORE: {
       // entitiesObject, entityType;
       //       responseIsList
       // responseEntityType
@@ -16,12 +16,13 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         [action.entityType]: allInstances,
       };
+    }
 
-    case types.REMOVE_API_ENTITIES_FROM_STORE:
+    case types.REMOVE_API_ENTITIES_FROM_STORE: {
       const current = state[action.entityType] || {};
       const keysToRemove = Object.keys(action.entitiesObject);
       const finalKeys = Object.keys(current).filter(
-        (key) => !keysToRemove.includes(key)
+        key => !keysToRemove.includes(key)
       );
       const final = {};
       for (let key of finalKeys) {
@@ -32,6 +33,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         [action.entityType]: final,
       };
+    }
 
     default:
       return state;
