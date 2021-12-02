@@ -1,16 +1,16 @@
-import { html, LitElement, css } from "lit";
-import { connect } from "pwa-helpers";
+import { html, LitElement, css } from 'lit';
+import { connect } from 'pwa-helpers';
 // import { router, navigator } from "lit-element-router";
-import { store } from "./redux/store";
+import { store } from './redux/store';
 // import { navigationRoutes, navigationRoutesList } from "./routes";
 // import { isUserLoggedIn, authUserData } from "./redux/main-app/selectors.js";
-import { apiReduxApps } from "./apis";
+import { apiReduxApps } from './apis';
 
 import {
   getEntityArray,
   getLatestMatchingCall,
   // getSingleEntity,
-} from "@sheenarbw/redux-django-rest-framework/src/apiEntities/selectors";
+} from '@prelude/redux-django-rest-framework/src/apiEntities/selectors';
 
 export class MainApp extends connect(store)(LitElement) {
   static get properties() {
@@ -24,22 +24,22 @@ export class MainApp extends connect(store)(LitElement) {
   constructor() {
     super();
     this.todoItems = [];
-    this.createEntryName = "";
+    this.createEntryName = '';
     this.lastListApiCall = { loading: true };
     this.lastCreateApiCall = { loading: false };
     this.preRenderCalled = false;
   }
 
   stateChanged(state) {
-    this.todoItems = getEntityArray({ state, entityType: "todoItem" });
+    this.todoItems = getEntityArray({ state, entityType: 'todoItem' });
     this.lastListApiCall = getLatestMatchingCall({
       state,
-      BASE_TYPE: "TODO_ITEM_LIST",
+      BASE_TYPE: 'TODO_ITEM_LIST',
       // requestData: {},
     }) || { loading: true };
     this.lastCreateApiCall = getLatestMatchingCall({
       state,
-      BASE_TYPE: "TODO_ITEM_CREATE",
+      BASE_TYPE: 'TODO_ITEM_CREATE',
       // requestData: {},
     }) || { loading: false };
   }
@@ -98,14 +98,14 @@ export class MainApp extends connect(store)(LitElement) {
         ${this.todoItems
           .sort((a, b) => a.done - b.done)
           .map(
-            (item) =>
+            item =>
               html`
                 <tr>
                   <td>
                     <input
                       type="checkbox"
                       .checked=${item.done}
-                      @click=${(e) => this.handleToggleCheck({ e, item })}
+                      @click=${e => this.handleToggleCheck({ e, item })}
                     />
                     ${item.done ? html`<del>${item.name}</del>` : item.name}
                   </td>
@@ -134,4 +134,4 @@ export class MainApp extends connect(store)(LitElement) {
   }
 }
 
-customElements.define("main-app", MainApp);
+customElements.define('main-app', MainApp);
