@@ -1,6 +1,6 @@
 {
-  "name": "@prelude/redux-django-rest-framework",
-  "version": "0.1.1",
+  "name": "@prelude/redux-api-toolbox",
+  "version": "0.0.1",
   "description": "If you are running Django Rest Framework on your backend then you can use these tools to get your js frontend to play nice with your backend. It's framework agnostic. It doesn't mean you would need to use redux as your main state management tool",
   "main": "src/",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sheenarbw/redux-django-rest-framework.git"
+    "url": "git+https://github.com/preludetech/redux-api-toolbox.git"
   },
   "keywords": [
     "redux",
@@ -18,9 +18,9 @@
   "author": "Sheena O'Connell",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sheenarbw/redux-django-rest-framework/issues"
+    "url": "https://github.com/preludetech/redux-api-toolbox/issues"
   },
-  "homepage": "https://github.com/sheenarbw/redux-django-rest-framework#readme",
+  "homepage": "https://github.com/preludetech/redux-api-toolbox#readme",
   "dependencies": {
     "redux": "^4.1.1",
     "redux-saga": "^1.1.3"
