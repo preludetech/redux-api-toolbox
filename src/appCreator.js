@@ -1,6 +1,6 @@
-import { takeEvery, put, call, select } from 'redux-saga/effects';
-import { apiEntitiesOperations } from './apiEntities';
-import { toasterOperations } from './toaster/index.js';
+import { takeEvery, put, call, select } from "redux-saga/effects";
+import { apiEntitiesOperations } from "./apiEntities";
+import { toasterOperations } from "./toaster/index.js";
 
 const INITIAL_SINGLE_API_CALL_STATE = {
   loading: false,
@@ -42,17 +42,19 @@ export function createReduxApp({
   };
 
   const creators = {
-    start: ({ data, successToast }) => ({
+    start: ({ data, successToast, successDispatchActions }) => ({
       type: types.ADD_NEW_START,
       data,
       successToast,
+      successDispatchActions,
       force: true,
     }),
 
-    maybeStart: ({ data, successToast }) => ({
+    maybeStart: ({ data, successToast, successDispatchActions }) => ({
       type: types.ADD_NEW_START,
       data,
       successToast,
+      successDispatchActions,
       force: false,
     }),
 
@@ -73,20 +75,21 @@ export function createReduxApp({
         force: false,
       }),
 
-    _start: ({ data, callIndex, successToast }) => {
+    _start: ({ data, callIndex, successToast, successDispatchActions }) => {
       if (callIndex === undefined)
-        throw new Error('Always include the call index while making api calls');
+        throw new Error("Always include the call index while making api calls");
       return {
         type: types.START,
         data,
         callIndex,
         successToast,
+        successDispatchActions,
       };
     },
 
     success: ({ data, requestData, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error('Always include the call index while making api calls');
+        throw new Error("Always include the call index while making api calls");
       return {
         type: types.SUCCESS,
         responseData: data,
@@ -97,7 +100,7 @@ export function createReduxApp({
 
     error: ({ error, requestData, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error('Always include the call index while making api calls');
+        throw new Error("Always include the call index while making api calls");
       return {
         type: types.ERROR,
         error,
@@ -108,7 +111,7 @@ export function createReduxApp({
 
     responseError: ({ data, requestData, callIndex }) => {
       if (callIndex === undefined)
-        throw new Error('Always include the call index while making api calls');
+        throw new Error("Always include the call index while making api calls");
       return {
         type: types.RESPONSE_ERROR,
         responseData: data,
@@ -121,13 +124,17 @@ export function createReduxApp({
   const operations = {
     ...creators,
 
-    maybeStart: params => {
-      const { data, successToast } = params;
+    maybeStart: (params) => {
+      const { data, successToast, successDispatchActions } = params;
 
       if (data === undefined || data === null) {
-        throw new Error('call data cannot be undefined or null');
+        throw new Error("call data cannot be undefined or null");
       }
-      return creators.maybeStart({ data, successToast });
+      return creators.maybeStart({
+        data,
+        successToast,
+        successDispatchActions,
+      });
     },
 
     // forceStart: (params) => {
@@ -146,7 +153,7 @@ export function createReduxApp({
       Object.values(types).indexOf(action.type) !== -1 &&
       callIndex === undefined
     )
-      throw new Error('Always include the call index while making api calls');
+      throw new Error("Always include the call index while making api calls");
 
     switch (action.type) {
       case types.START: {
@@ -156,6 +163,7 @@ export function createReduxApp({
           loading: true,
           requestData: action.data,
           successToast: action.successToast,
+          successDispatchActions: action.successDispatchActions,
           callIndex,
         };
         return startState;
@@ -215,6 +223,11 @@ export function createReduxApp({
         if (action.successToast) {
           yield put(toasterOperations.addNewToast(action.successToast));
         }
+
+        if (action.successDispatchActions) {
+          for (let sideEffect of action.successDispatchActions)
+            yield put(sideEffect);
+        }
       } else {
         yield put(
           operations.responseError({
@@ -245,8 +258,8 @@ export function createReduxApp({
     }
 
     const { force } = action;
-    if (force === undefined) throw new Error('force should be set');
-    const callLog = yield select(state => state[BASE_TYPE]);
+    if (force === undefined) throw new Error("force should be set");
+    const callLog = yield select((state) => state[BASE_TYPE]);
     const callIndex = Object.keys(callLog).length;
 
     const matchingCall = getLatestMatchingCall({
@@ -259,6 +272,7 @@ export function createReduxApp({
         operations._start({
           data: action.data,
           successToast: action.successToast,
+          successDispatchActions: action.successDispatchActions,
           callIndex,
         })
       );
@@ -271,13 +285,13 @@ export function createReduxApp({
 
   function* addNewStartSequenceSideEffects(action) {
     const { force } = action;
-    if (force === undefined) throw new Error('force should be set');
-    const callLog = yield select(state => state[BASE_TYPE]);
+    if (force === undefined) throw new Error("force should be set");
+    const callLog = yield select((state) => state[BASE_TYPE]);
 
     const callIndex = Object.keys(callLog).length;
     const { dataSequence } = action;
     if (dataSequence === undefined)
-      throw new Error('dataSequence should be set');
+      throw new Error("dataSequence should be set");
 
     for (let index in dataSequence) {
       let data = dataSequence[index];
@@ -364,7 +378,7 @@ export function getLatestMatchingCall({ callLog, requestData }) {
 
   if (callLog === undefined) return;
   const indices = Object.keys(callLog).sort((a, b) => b - a);
-  const matchingIndex = indices.find(index => {
+  const matchingIndex = indices.find((index) => {
     const logEntry = callLog[index];
     for (let key in requestData) {
       if (

@@ -113,3 +113,15 @@ export async function changePassword({
   });
   return { response, responseData };
 }
+
+export async function userDetails({ REST_AUTH_BASE_URL }) {
+  const url = urlJoin({
+    base: REST_AUTH_BASE_URL,
+    tail: "user/",
+  });
+  const { response, responseData } = await fetchAndClean({
+    url,
+    method: "GET",
+  });
+  return { response, responseData };
+}

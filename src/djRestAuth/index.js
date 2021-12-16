@@ -4,6 +4,7 @@ import {
   requestPasswordReset,
   performPasswordReset,
   changePassword,
+  userDetails,
 } from "./apiCalls";
 import { createReduxApp } from "../appCreator";
 
@@ -16,6 +17,7 @@ const LOGIN = logName("LOGIN");
 const REQUEST_PASSWORD_RESET = logName("REQUEST_PASSWORD_RESET");
 const PERFORM_PASSWORD_RESET = logName("PERFORM_PASSWORD_RESET");
 const CHANGE_PASSWORD = logName("CHANGE_PASSWORD");
+const USER_DETAILS = logName("USER_DETAILS");
 
 export const apiReduxApps = {
   [LOGOUT]: createReduxApp({
@@ -32,13 +34,22 @@ export const apiReduxApps = {
     BASE_TYPE: REQUEST_PASSWORD_RESET,
     apiCaller: requestPasswordReset,
   }),
+
   [PERFORM_PASSWORD_RESET]: createReduxApp({
     BASE_TYPE: PERFORM_PASSWORD_RESET,
     apiCaller: performPasswordReset,
   }),
+
   [CHANGE_PASSWORD]: createReduxApp({
     BASE_TYPE: CHANGE_PASSWORD,
     apiCaller: changePassword,
+  }),
+
+  [USER_DETAILS]: createReduxApp({
+    BASE_TYPE: USER_DETAILS,
+    apiCaller: userDetails,
+    responseEntityType: "loggedInUser",
+    responseIsList: false,
   }),
 };
 
