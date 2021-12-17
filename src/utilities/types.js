@@ -1,0 +1,9 @@
+const types = {
+  ADD_NEW_TOAST: "ADD_NEW_TOAST",
+  REMOVE_TOAST: "REMOVE_TOAST",
+  ADD_NEW_TOAST_SUCCESS: "ADD_NEW_TOAST_SUCCESS",
+
+  PAGE_REDIRECT: "PAGE_REDIRECT",
+};
+
+export default types;

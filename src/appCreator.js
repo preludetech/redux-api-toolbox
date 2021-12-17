@@ -1,6 +1,6 @@
 import { takeEvery, put, call, select } from "redux-saga/effects";
 import { apiEntitiesOperations } from "./apiEntities";
-import { toasterOperations } from "./toaster/index.js";
+import { utilityOperations } from "./utilities/index.js";
 
 const INITIAL_SINGLE_API_CALL_STATE = {
   loading: false,
@@ -221,7 +221,7 @@ export function createReduxApp({
         // console.log(action);
 
         if (action.successToast) {
-          yield put(toasterOperations.addNewToast(action.successToast));
+          yield put(utilityOperations.addNewToast(action.successToast));
         }
 
         if (action.successDispatchActions) {

@@ -1,4 +1,4 @@
-import types from './types.js';
+import types from "./types.js";
 
 export default {
   addNewToast: ({ severity, heading, message, timeout }) => ({
@@ -21,5 +21,10 @@ export default {
   removeToast: ({ index }) => ({
     type: types.REMOVE_TOAST,
     index,
+  }),
+
+  pageRedirect: ({ url }) => ({
+    type: types.PAGE_REDIRECT,
+    url,
   }),
 };
