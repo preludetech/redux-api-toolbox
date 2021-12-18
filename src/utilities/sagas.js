@@ -1,9 +1,9 @@
 // strict;
 
-import { takeEvery, put, select, delay, fork } from "redux-saga/effects";
+import { takeEvery, put, select, delay, fork } from 'redux-saga/effects';
 
-import types from "./types.js";
-import operations from "./operations.js";
+import types from './types.js';
+import operations from './operations.js';
 
 // function sleep({ seconds }) {
 //   return new Promise(resolve => {
@@ -21,8 +21,8 @@ function* removeToast({ timeout, index }) {
 }
 
 function* addNewToastSideEffects(action) {
-  const state = yield select((s) => s);
-  const indices = Object.keys(state.toaster);
+  const state = yield select(s => s);
+  const indices = Object.keys(state.utilities.toasts);
   const index = indices.length === 0 ? 1 : Math.max(indices + 1);
 
   yield put(

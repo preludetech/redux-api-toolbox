@@ -1,6 +1,8 @@
 import types from './types.js';
 
-const INITIAL_STATE = {};
+const INITIAL_STATE = {
+  toasts: {},
+};
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -9,22 +11,29 @@ const reducer = (state = INITIAL_STATE, action) => {
     case types.ADD_NEW_TOAST_SUCCESS:
       return {
         ...state,
-        [action.index]: {
-          severity: action.severity,
-          heading: action.heading,
-          message: action.message,
-          timeout: action.timeout,
+        toasts: {
+          ...state.toasts,
+
+          [action.index]: {
+            severity: action.severity,
+            heading: action.heading,
+            message: action.message,
+            timeout: action.timeout,
+          },
         },
       };
     case types.REMOVE_TOAST: {
-      const result = {};
+      const toasts = {};
 
-      Object.keys(state)
+      Object.keys(state.toasts)
         .filter(index => parseInt(index, 10) !== parseInt(action.index, 10))
         .forEach(key => {
-          result[key] = state[key];
+          toasts[key] = state[key];
         });
-      return result;
+      return {
+        ...state,
+        toasts,
+      };
     }
 
     default:

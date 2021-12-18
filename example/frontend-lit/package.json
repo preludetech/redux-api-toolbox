@@ -9,7 +9,7 @@
     "start": "web-dev-server"
   },
   "dependencies": {
-    "@sheenarbw/redux-django-rest-framework": "file:../..",
+    "@prelude/redux-api-toolbox": "file:../..",
     "lit": "^2.0.0",
     "pwa-helpers": "^0.9.1",
     "redux": "^4.1.1",

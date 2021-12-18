@@ -7,7 +7,7 @@ If you are using [dj-rest-auth](https://dj-rest-auth.readthedocs.io/en/latest/) 
 ## How to install
 
 ```
-npm i @sheenarbw/redux-django-rest-framework
+npm i @prelude/redux-api-toolbox
 ```
 
 ## An example in action
@@ -141,4 +141,3 @@ function* watchApiLogEntryCreateSuccess() {
 }
 
 ```
-
