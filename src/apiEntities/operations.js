@@ -3,7 +3,10 @@ import Creators from "./actions.js";
 const arrayToObjectWithIdKeys = ({ entityList }) => {
   let dataAsObject = {};
 
-  entityList.forEach((element) => {
+  const actualList =
+    entityList.forEach === undefined ? entityList.results : entityList;
+
+  actualList.forEach((element) => {
     dataAsObject[element.id] = element;
   });
   return dataAsObject;
