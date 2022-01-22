@@ -17,7 +17,12 @@ export const getSingleEntity = ({ state, entityType, id }) => {
   );
 };
 
-export const getLatestMatchingCall = ({ state, BASE_TYPE, requestData }) => {
-  const callLog = state[BASE_TYPE];
-  return rawGetLatestMatchingCall({ callLog, requestData });
+export const getLatestMatchingCall = ({
+  callLog,
+  state,
+  BASE_TYPE,
+  requestData,
+}) => {
+  const calculatedCallLog = callLog || state[BASE_TYPE];
+  return rawGetLatestMatchingCall({ callLog: calculatedCallLog, requestData });
 };
